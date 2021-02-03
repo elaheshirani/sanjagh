@@ -24,6 +24,7 @@ class User extends Eloquent
         'name',
         'email',
         'password',
+        'created_at'
     ];
 
     /**
@@ -43,5 +44,6 @@ class User extends Eloquent
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => 'datetime',
     ];
 }

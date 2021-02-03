@@ -2,25 +2,26 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use Faker\Factory;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class CreateUsers extends Command
+class UpdateUser extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'create:users';
+    protected $signature = 'update:user {id} {name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create Users';
+    protected $description = 'Update User';
 
     /**
      * Create a new command instance.
@@ -40,15 +41,9 @@ class CreateUsers extends Command
     public function handle()
     {
         $faker = Factory::create();
-        $limit = 100;
-        for ($i = 0; $i < $limit; $i++) {
-            DB::table('users')->insert([
-                'name' => $faker->name,
-                'email' => $faker->unique()->email,
-                'password' => $faker->password(10),
-                'created_at' => $faker->dateTime()
-            ]);
-        }
-        $this->line("Users created successfully.");
+        $user = User::find($this->argument('id'));
+        $user->name = $this->argument('name');
+        $user->save();
+        $this->line("User updated successfully.");
     }
 }
